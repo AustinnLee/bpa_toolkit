@@ -1,0 +1,20 @@
+# --- Python / Environment ---
+__pycache__/
+*.py[cod]
+.venv/
+.env
+
+# --- IDE Settings (不要把你的个人编辑器配置上传) ---
+.idea/
+.vscode/
+*.swp
+
+# --- Data Isolation (严禁上传业务数据) ---
+data/
+# 但是我们需要保留文件夹结构，所以排除 .gitkeep
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# --- OS ---
+.DS_Store
+Thumbs.db
