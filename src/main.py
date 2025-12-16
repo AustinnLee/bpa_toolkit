@@ -1,30 +1,46 @@
 import sys
-import pandas as pd
-import numpy as np
+from pathlib import Path
+
+# 添加根目录到路径
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.append(str(PROJECT_ROOT))
+
+# 引入所有模块
+from scripts.gen_dirty_data import generate_chaos
+from scripts.gen_mock_recon import create_mock_files
+from src.services.bba_etl import run_bba_sales_etl
+from src.services.recon_bot import run_recon_bot
+
+# 如果 api_client 里你也封装了 run_exchange_demo，也可以引进来
+
 
 def main():
-    print("--------------------------------------------------")
-    print("   BPA TOOLKIT - ENTERPRISE CONTAINER STARTUP     ")
-    print("--------------------------------------------------")
+    while True:
+        print("\n=== BPA Toolkit Master Control ===")
+        print("--- Scripts (生成数据) ---")
+        print("1. Generate Dirty Sales Data")
+        print("2. Generate Reconciliation Mock Data")
+        print("--- Services (业务逻辑) ---")
+        print("3. Run BBA Sales ETL (Cleaning)")
+        print("4. Run Reconciliation Bot (Accounting)")
+        print("q. Quit")
 
-    # 1. 环境自检
-    print(f"[System] Python Version: {sys.version.split()[0]}")
-    print(f"[System] Pandas Version: {pd.__version__}")
+        choice = input("\nSelect Action: ")
 
-    # 2. 模拟业务逻辑
-    print("[Task] Initializing Data Processing...")
-    df = pd.DataFrame({
-        "status": ["active", "active", "pending"],
-        "value": [100, 200, 50]
-    })
+        if choice == "1":
+            generate_chaos()
+        elif choice == "2":
+            create_mock_files()
+        elif choice == "3":
+            run_bba_sales_etl()
+        elif choice == "4":
+            run_recon_bot()
+        elif choice.lower() == "q":
+            print("Bye!")
+            break
+        else:
+            print("Invalid choice")
 
-    summary = df.groupby("status")["value"].sum()
-    print("\n[Result] Business Logic Executed Successfully:")
-    print(summary)
-
-    print("\n--------------------------------------------------")
-    print("   CONTAINER SHUTDOWN GRACEFULLY                  ")
-    print("--------------------------------------------------")
 
 if __name__ == "__main__":
     main()
